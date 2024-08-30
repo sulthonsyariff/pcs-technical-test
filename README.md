@@ -1,14 +1,14 @@
 # PCS Technical Test
 
-This project is a technical test for PCS company. It is built using Vue 3, Vite, and Tailwind CSS.
+This project is a technical test for PCS company. It is built using Vue 3, Vite, Tailwind CSS, and Pinia for state management.
 
 ## Features
 
 - Responsive design
 - Uses Vue 3 and Vite
 - Uses Tailwind CSS for styling
-- Has a navigation menu
 - Has a notification page
+- Has a feature for check in and check out
 
 ## How to run
 

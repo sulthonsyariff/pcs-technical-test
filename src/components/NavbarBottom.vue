@@ -3,7 +3,7 @@
     <nav class="flex justify-around items-end pb-[10px] h-[70px]">
       <button 
         class="flex flex-col flex-1 items-center text-gray-600"
-        :class="{ 'font-semibold text-primary': isActive('home')
+        :class="{ 'font-semibold text-primary': isActiveRoute('home')
       }">
         <font-awesome-icon :icon="['fas', 'house-chimney']" class="text-2xl" />
         <span class="text-xs mt-[6px]">Home</span>
@@ -15,10 +15,15 @@
       </button>
 
       <div class="flex flex-col flex-1 self-end items-center">
-        <button class="flex justify-center items-center w-[80px] h-[80px] bg-primary text-white rounded-full shadow-md checkout-button-shadow">
+        <button
+          class="flex justify-center items-center w-[80px] h-[80px] bg-primary text-white rounded-full shadow-md checkout-button-shadow"
+          @click="handleCheckinAndCheckout"
+        >
           <font-awesome-icon :icon="['fas', 'right-from-bracket']" class="text-4xl" />
         </button>
-        <span class="text-xs text-center mt-[6px] font-semibold text-primary">Check Out</span>
+        <span class="text-xs text-center mt-[6px] font-semibold text-primary">
+          {{ isCheckIn ? 'Check Out' : 'Check In' }}
+        </span>
       </div>
       
       <button class="flex flex-col flex-1 items-center text-gray-600">
@@ -36,10 +41,36 @@
 
 
 <script setup>
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useWorkTrackerStore } from '@/stores/workTrackerStore'
+
+const workTrackerStore = useWorkTrackerStore()
+
+const isCheckIn = computed(() => !!workTrackerStore.checkInTime)
+
+const handleCheckin = () => {
+  workTrackerStore.handleCheckIn()
+}
+
+const handleCheckout = () => {
+  workTrackerStore.handleCheckOut()
+}
+
+const handleCheckinAndCheckout = () => {
+  if (isCheckIn.value) {
+    handleCheckout()
+  } else {
+    handleCheckin()
+  }
+}
 
 const route = useRoute()
-const isActive = (pathName) => route.name === pathName;
+
+const isActiveRoute = (routeName) => {
+  route.name === routeName
+};
+
 </script>
 
 <style lang="scss" scoped>
